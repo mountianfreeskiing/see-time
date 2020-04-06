@@ -1,8 +1,10 @@
 // pages/sleep/sleep.js
-var wxCharts = require('../../utils/wxcharts.js');
+const wxCharts = require('../../utils/wxcharts.js');
 
 const IS_SLEEPING = 'is_sleeping'
 const LAST_SLEEP_TIME = 'last_sleep_time'
+
+let lineChart = null;
 Page({
 
   data: {
@@ -13,7 +15,7 @@ Page({
   },
 
   onLoad: function (options) {
-    var that = this
+    const that = this
     //获取系统信息  
     wx.getSystemInfo({
       //获取系统信息成功，将系统窗口的宽高赋给页面的宽高  
@@ -31,6 +33,8 @@ Page({
         rightText: '起床'
       });
     }
+
+    that.createChart();
   },
 
   onReady: function () {
@@ -42,7 +46,6 @@ Page({
   // 所有的canvas属性以及Math.sin,Math.cos()等涉及角度的参数都是用弧度表示
   // 时钟
   drawClock: function () {
-    let _this = this;
     const ctx = wx.createCanvasContext('clock');
     var height = this.data.canvasHeight;
     var width = this.data.canvasWidth;
@@ -173,6 +176,79 @@ Page({
   getUp() {
     this.cancelTimeCount();
     //去统计界面
-  }
+  },
+
+  /////////////////////////////////图表
+
+  createChart() {
+    const that = this;
+    const simulationData = this.createSimulationData();
+    lineChart = new wxCharts({
+        canvasId: 'lineCanvas',
+        type: 'area',
+        categories: simulationData.categories,
+        animation: true,
+        series: [{
+            name: '睡眠时长',
+            data: simulationData.data,
+            format: function (val, name) {
+                return Math.round(val) + '小时';
+            }
+        }],
+        xAxis: {
+            gridColor: '#83EEC4',
+            fontColor: '#B3B3B3',
+            min: 0,
+        },
+        yAxis: {
+            title: '',
+            format: function (val) {
+                return Math.round(val);
+            },
+            min: 0,
+            gridColor: '#83EEC4',
+            fontColor: '#B3B3B3',
+            fontSize: 23,
+        },
+        width: that.data.canvasWidth,
+        height: 150,
+        dataLabel: true,
+        dataPointShape: true,
+        enableScroll: true,
+        extra: {
+            lineStyle: 'curve'
+        }
+    });
+  },
+
+  touchHandler: function (e) {
+    lineChart.scrollStart(e);
+  },
+  
+  moveHandler: function (e) {
+    lineChart.scroll(e);
+  },
+  
+  touchEndHandler: function (e) {
+    lineChart.scrollEnd(e);
+    lineChart.showToolTip(e, {
+        format: function (item, category) {
+            return category + ' ' + item.name + ':' + item.data 
+        }
+    });        
+  },
+
+  createSimulationData: function () {
+    let categories = [];
+    let data = [];
+    for (let i = 0; i < 8; i++) {
+        categories.push('周' + (i + 1));
+        data.push(Math.random()*(10-0));
+    }
+    return {
+        categories: categories,
+        data: data
+    }
+  },
 
 })

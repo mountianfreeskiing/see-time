@@ -14,6 +14,8 @@
               <text>{{rightText}}</text>
             </view>
         </view>
+            <canvas  class="chart-canvas" canvas-id="lineCanvas" disable-scroll="true" bindtouchstart="touchHandler"
+             bindtouchmove="moveHandler" bindtouchend="touchEndHandler" style='width:100%;'></canvas>
       </canvas>
   </view>
 </view>
