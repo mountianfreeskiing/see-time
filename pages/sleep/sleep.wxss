@@ -41,3 +41,6 @@
 .sleep-page .sleep-dynmic-clock .sleep-clock-convas .btn-wrap .button-hover > text {
   color: #ffffff;
 }
+.sleep-page .sleep-dynmic-clock .sleep-clock-convas .chart-canvas {
+  margin-top: 71rpx;
+}

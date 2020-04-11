@@ -84,11 +84,10 @@ Page({
     function drawTimeNumbers(time) {
       // 保存画之前的状态
       ctx.save();
-      ctx.font = "76px light PingFangSC-Light";
-      ctx.setFontSize(76);
+      ctx.font = "300 71px 'PingFang SC'";
       ctx.fillStyle="black";
       ctx.setTextAlign('center');
-      ctx.textBaseline = "middle"
+      ctx.textBaseline = "middle";
 
       let h = 0, m = 0;
       try {
@@ -191,14 +190,23 @@ Page({
         series: [{
             name: '睡眠时长',
             data: simulationData.data,
+            isGradient: true,
+            pointTextColor: 'transparent',
+            color: '#82EDC3',
+            startColor: '#96F0CB',
+            endColor: '#E4EB6B',
             format: function (val, name) {
                 return Math.round(val) + '小时';
             }
         }],
         xAxis: {
             gridColor: '#83EEC4',
-            fontColor: '#B3B3B3',
-            min: 0,
+            fontColor1: '#FFFFFF',
+            fontColor2: '#727171',
+            bgColor1: '#88E8C3',
+            bgColor2: '#E9F9DA',
+            fontSize: 24,
+            min: 0
         },
         yAxis: {
             title: '',
@@ -208,7 +216,7 @@ Page({
             min: 0,
             gridColor: '#83EEC4',
             fontColor: '#B3B3B3',
-            fontSize: 23,
+            fontSize: 23
         },
         width: that.data.canvasWidth,
         height: 150,
@@ -241,9 +249,36 @@ Page({
   createSimulationData: function () {
     let categories = [];
     let data = [];
-    for (let i = 0; i < 8; i++) {
-        categories.push('周' + (i + 1));
-        data.push(Math.random()*(10-0));
+    for (let i = 0; i < 7; i++) {
+        switch (i) {
+          case 0:
+            categories.push('周一');
+            break;
+          case 1:
+            categories.push('周二');
+            break;
+          case 2:
+            categories.push('周三');
+            break;
+          case 3:
+            categories.push('周四');
+            break;
+          case 4:
+            categories.push('周五');
+            break;
+          case 5:
+            categories.push('周六');
+            break;
+          case 6:
+            categories.push('周天');
+            break;
+          default:
+            break
+        }
+        // data.push(Math.random()*(10-0));
+    }
+    for (let j = 0; j < 5; j++) {
+      data.push(Math.random()*(10-0));
     }
     return {
         categories: categories,

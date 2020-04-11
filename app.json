@@ -1,8 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/profile/profile",
     "pages/logs/logs",
-    "pages/sleep/sleep"
+    "pages/sleep/sleep",
+    "pages/sleepCounter/sleepCounter"
   ],
   "window": {
     "backgroundTextStyle": "light",

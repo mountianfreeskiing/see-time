@@ -52,6 +52,20 @@
 					"id": -1,
 					"name": "睡眠",
 					"pathName": "pages/sleep/sleep",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "睡觉",
+					"pathName": "pages/sleep/sleep",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "睡眠计时",
+					"pathName": "pages/sleepCounter/sleepCounter",
 					"scene": null
 				}
 			]

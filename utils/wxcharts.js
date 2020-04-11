@@ -647,6 +647,27 @@ function getXAxisPoints(categories, opts, config) {
     return { xAxisPoints: xAxisPoints, startX: startX, endX: endX, eachSpacing: eachSpacing };
 }
 
+function getXAxisArea(categories, opts, config) {
+    var yAxisTotalWidth = config.yAxisWidth + config.yAxisTitleWidth;
+    var spacingValid = opts.width - 2 * config.padding - yAxisTotalWidth;
+    var dataCount = opts.enableScroll ? Math.min(5, categories.length) : categories.length;
+    var eachSpacing = spacingValid / dataCount;
+
+    var xAxisPoints = [];
+    var startX = config.padding + yAxisTotalWidth - eachSpacing / 2;
+    var endX = opts.width - config.padding;
+    categories.forEach(function (item, index) {
+        xAxisPoints.push(startX + index * eachSpacing);
+    });
+    if (opts.enableScroll === true) {
+        xAxisPoints.push(startX + categories.length * eachSpacing);
+    } else {
+        xAxisPoints.push(endX);
+    }
+
+    return { xAxisPoints: xAxisPoints, startX: startX, endX: endX, eachSpacing: eachSpacing };
+}
+
 function getDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts, config) {
     var process = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 1;
 
@@ -811,7 +832,7 @@ function drawPointText(points, series, config, context) {
 
     context.beginPath();
     context.setFontSize(config.fontSize);
-    context.setFillStyle('#666666');
+    context.setFillStyle(series.pointTextColor);
     points.forEach(function (item, index) {
         if (item !== null) {
             var formatVal = series.format ? series.format(data[index]) : data[index];
@@ -1096,13 +1117,14 @@ function drawColumnDataPoints(series, opts, config, context) {
     };
 }
 
+//绘制area的色块区域
 function drawAreaDataPoints(series, opts, config, context) {
     var process = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 
     var _calYAxisData2 = calYAxisData(series, opts, config),
         ranges = _calYAxisData2.ranges;
 
-    var _getXAxisPoints2 = getXAxisPoints(opts.categories, opts, config),
+    var _getXAxisPoints2 = getXAxisArea(opts.categories, opts, config),
         xAxisPoints = _getXAxisPoints2.xAxisPoints,
         eachSpacing = _getXAxisPoints2.eachSpacing;
 
@@ -1128,12 +1150,23 @@ function drawAreaDataPoints(series, opts, config, context) {
         var splitPointList = splitPoints(points);
 
         splitPointList.forEach(function (points) {
-            // 绘制区域数据
-            context.beginPath();
-            context.setStrokeStyle(eachSeries.color);
-            context.setFillStyle(eachSeries.color);
+            if (eachSeries.isGradient) {
+                const grd = context.createLinearGradient(0, 0, 0, 170);
+                grd.addColorStop(0, eachSeries.startColor);
+                grd.addColorStop(1, eachSeries.endColor);
+                // 绘制区域数据
+                context.beginPath();
+                context.setStrokeStyle(eachSeries.color);
+                context.setFillStyle(grd);
+            } else {
+                // 绘制区域数据
+                context.beginPath();
+                context.setStrokeStyle(eachSeries.color);
+                context.setFillStyle(eachSeries.color);
+            }
+
             context.setGlobalAlpha(0.6);
-            context.setLineWidth(2);
+            context.setLineWidth(4);
             if (points.length > 1) {
                 var firstPoint = points[0];
                 var lastPoint = points[points.length - 1];
@@ -1291,7 +1324,7 @@ function drawXAxis(categories, opts, config, context) {
         eachSpacing = _getXAxisPoints4.eachSpacing;
 
     var startY = opts.height - config.padding - config.xAxisHeight - config.legendHeight;
-    var endY = startY + config.xAxisLineHeight;
+    var endY = -opts.height + config.padding;
 
     context.save();
     if (opts._scrollDistance_ && opts._scrollDistance_ !== 0) {
@@ -1328,34 +1361,52 @@ function drawXAxis(categories, opts, config, context) {
         return index % ratio !== 0 ? '' : item;
     });
 
+    // X轴的刻度标注
     if (config._xAxisTextAngle_ === 0) {
-        context.beginPath();
-        context.setFontSize(config.fontSize);
-        context.setFillStyle(opts.xAxis.fontColor || '#666666');
         categories.forEach(function (item, index) {
-            var offset = eachSpacing / 2 - measureText(item) / 2;
-            context.fillText(item, xAxisPoints[index] + offset, startY + config.fontSize + 5);
+            context.save();
+            context.beginPath();
+            context.setFontSize(config.fontSize);
+            if (index % 2 === 0) {
+                context.setFillStyle(opts.xAxis.bgColor1 || '#88E8C3');
+                context.arc(xAxisPoints[index], startY + config.fontSize + 5, measureText(item) / 2 + 5, 0, 2 * Math.PI, false);
+                context.fill();
+                context.setFillStyle(opts.xAxis.fontColor1 || '#666666');
+            } else {
+                context.setFillStyle(opts.xAxis.bgColor2 || '#E9F9DA');
+                context.arc(xAxisPoints[index], startY + config.fontSize + 5, measureText(item) / 2 + 5, 0, 2 * Math.PI, false);
+                context.fill();
+                context.setFillStyle(opts.xAxis.fontColor2 || '#666666');
+            }
+            context.fillText(item, xAxisPoints[index] - measureText(item) / 2, startY + config.fontSize + 10);
+            context.closePath();
+            context.restore();
         });
-        context.closePath();
-        context.stroke();
     } else {
         categories.forEach(function (item, index) {
             context.save();
             context.beginPath();
             context.setFontSize(config.fontSize);
-            context.setFillStyle(opts.xAxis.fontColor || '#666666');
-            var textWidth = measureText(item);
-            var offset = eachSpacing / 2 - textWidth;
+            if (index % 2 === 0) {
+                context.setFillStyle(opts.xAxis.bgColor1 || '#88E8C3');
+                context.arc(xAxisPoints[index], startY + config.fontSize + 5, measureText(item) / 2 + 2, 0, 2 * Math.PI, false);
+                context.fill();
+                context.setFillStyle(opts.xAxis.fontColor1 || '#666666');
+            } else {
+                context.setFillStyle(opts.xAxis.bgColor2 || '#E9F9DA');
+                context.arc(xAxisPoints[index], startY + config.fontSize + 5, measureText(item) / 2 + 2, 0, 2 * Math.PI, false);
+                context.fill();
+                context.setFillStyle(opts.xAxis.fontColor2 || '#666666');
+            }
 
-            var _calRotateTranslate = calRotateTranslate(xAxisPoints[index] + eachSpacing / 2, startY + config.fontSize / 2 + 5, opts.height),
+            var _calRotateTranslate = calRotateTranslate(xAxisPoints[index], startY + config.fontSize / 2 + 5, opts.height),
                 transX = _calRotateTranslate.transX,
                 transY = _calRotateTranslate.transY;
 
             context.rotate(-1 * config._xAxisTextAngle_);
             context.translate(transX, transY);
-            context.fillText(item, xAxisPoints[index] + offset, startY + config.fontSize + 5);
+            context.fillText(item, xAxisPoints[index] - measureText(item) / 2, startY + config.fontSize + 10);
             context.closePath();
-            context.stroke();
             context.restore();
         });
     }
@@ -1368,7 +1419,7 @@ function drawYAxisGrid(opts, config, context) {
     var eachSpacing = Math.floor(spacingValid / config.yAxisSplit);
     var yAxisTotalWidth = config.yAxisWidth + config.yAxisTitleWidth;
     var startX = config.padding + yAxisTotalWidth;
-    var endX = opts.width - config.padding;
+    var endX = config.padding + yAxisTotalWidth;//opts.width - config.padding;
 
     var points = [];
     for (var i = 0; i < config.yAxisSplit; i++) {
@@ -1431,6 +1482,7 @@ function drawYAxis(series, opts, config, context) {
     }
 }
 
+//绘制图标的总结性标题
 function drawLegend(series, opts, config, context) {
     if (!opts.legend) {
         return;
@@ -1444,7 +1496,7 @@ function drawLegend(series, opts, config, context) {
         legendList = _calLegendData.legendList;
 
     var padding = 5;
-    var marginTop = 8;
+    var marginTop = 20;
     var shapeWidth = 15;
     legendList.forEach(function (itemList, listIndex) {
         var width = 0;
@@ -1503,6 +1555,7 @@ function drawLegend(series, opts, config, context) {
         });
     });
 }
+
 function drawPieDataPoints(series, opts, config, context) {
     var process = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 
