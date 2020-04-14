@@ -5,13 +5,15 @@ const IS_SLEEPING = 'is_sleeping'
 const LAST_SLEEP_TIME = 'last_sleep_time'
 
 let lineChart = null;
+let show = true;
+let lastSecond = 0;
 Page({
 
   data: {
     canvasWidth: 0,
     canvasHeight: 0,
     rightText: "睡觉",
-    btnBg: '../../images/icon_btn_bg.png'
+    btnBg: '../../images/icon_btn_bg.png',
   },
 
   onLoad: function (options) {
@@ -78,7 +80,7 @@ Page({
       ctx.setFontSize(28);
       ctx.fillStyle="#B0B0B0";
       ctx.setTextAlign('center');
-      ctx.fillText('睡   眠', 0, -60);
+      ctx.fillText('睡眠时长', 0, -60);
     };
 
     function drawTimeNumbers(time) {
@@ -89,25 +91,47 @@ Page({
       ctx.setTextAlign('center');
       ctx.textBaseline = "middle";
 
-      let h = 0, m = 0;
+      let h = 0, m = 0, s = 0;
       try {
         let value = wx.getStorageSync(LAST_SLEEP_TIME)
         if (value != '') {
          let leftTime = time - value;
 
             if (leftTime >= 0) {
-                h = Math.floor(leftTime/1000/60/60%24);
-                m = Math.floor(leftTime/1000/60%60);                
+                h = Math.floor(leftTime / 1000/ 60/ 60 % 24);
+                m = Math.floor(leftTime / 1000 / 60 % 60);
+                s = Math.floor(leftTime / 1000 % 60 );
             }
         }
       } catch (e) {
         console.log(e);
       }
+
+      //控制中间的:闪烁
+      let middleStr;
+      if (s - lastSecond >= 1) {
+        if (show) {
+          middleStr = ":"
+          show = false;
+        } else {
+          middleStr = " "
+          show = true;
+        }
+      } else {
+        if (show) {
+          middleStr = ":"
+        } else {
+          middleStr = " "
+        }
+      }
+      lastSecond = s;
+
+      //绘制睡眠的时长
       let hourStr, minStr;
       if (h > 10) {
-        hourStr = h + ":";
+        hourStr = h + middleStr;
       } else {
-        hourStr = '0' + h + ":";
+        hourStr = '0' + h + middleStr;
       }
       if (m > 10) {
         minStr = m;

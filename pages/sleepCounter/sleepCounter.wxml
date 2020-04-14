@@ -10,5 +10,10 @@
       <view class="min-hour">45</view>
       <view class="min-text">分</view>
     </view>
-  <view class="modify-time">起床时间不对？</view>
+
+  <view class="picker-wrap">
+    <picker mode="multiSelector" range="{{dateArray}}" value="{{dateIndex}}" bindchange="datePickerChange">
+      <view class="modify-time">起床时间不对？</view>
+    </picker>
+  </view>
 </view>

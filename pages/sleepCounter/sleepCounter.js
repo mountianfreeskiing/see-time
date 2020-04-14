@@ -1,66 +1,41 @@
 // pages/sleepCounter/sleepCounter.js
+import { DatePicker } from '../../utils/datePicker';
+const params = {
+  dateArr:['今天','明天','后天']
+}
+const datePicker = new DatePicker(params);
+const dateArr = datePicker.datePicker();
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
-
+    dateArray: null,//picker-rang的值
+    dateIndex:null,//picker-value的值
+    dateVal:null,//显示的时间
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.set_date();
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  //监听点击日期组件的事件变化
+  datePickerChange(e) {
+    let dateIndex = e.detail.value;
+    this.setData({
+      dateIndex,
+      dateVal: datePicker.toDate(dateArr.dateAll, dateIndex),
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  set_date() {
+    this.setData({
+      dateArray: dateArr.dateAll,
+      dateIndex: dateArr.currentDateArr,
+      dateVal: datePicker.toDate(dateArr.dateAll,dateArr.currentDateArr)
+    }) 
   }
 })

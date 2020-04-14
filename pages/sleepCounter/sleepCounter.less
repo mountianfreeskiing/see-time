@@ -33,13 +33,13 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
 
   .close-page {
     width: 85rpx;
     height: 86rpx;
     margin-top: 154rpx;
-    margin-right: 77rpx;
+    margin-left: 77rpx;
   }
 
   .sleep-title {
@@ -47,15 +47,6 @@
     color: #494848;
     margin-top: 289rpx;
     align-self: center;
-  }
-
-  .modify-time {
-    position: fixed;
-    bottom: 109rpx;
-    align-self: center;
-    font-size: 32rpx;
-    color: #ECC306;
-    border-bottom: solid 1rpx #ECC306;
   }
 
   .time-hour-wrap {
@@ -84,6 +75,21 @@
 
     .min-text {
       .timeUnitStyle(80%);
+    }
+  }
+
+  .picker-wrap {
+    display: flex;
+    width: 100%;
+    align-items: center;
+
+    .modify-time {
+      position: fixed;
+      bottom: 109rpx;
+      align-self: center;
+      font-size: 32rpx;
+      color: #ECC306;
+      border-bottom: solid 1rpx #ECC306;
     }
   }
 }
