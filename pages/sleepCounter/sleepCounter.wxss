@@ -73,12 +73,7 @@
   left: 80%;
   top: 195rpx;
 }
-.sleep-counter .picker-wrap {
-  display: flex;
-  width: 100%;
-  align-items: center;
-}
-.sleep-counter .picker-wrap .modify-time {
+.sleep-counter .modify-time {
   position: fixed;
   bottom: 109rpx;
   align-self: center;

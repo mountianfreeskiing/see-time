@@ -1,0 +1,26 @@
+<!--components/timePicker.wxml-->
+<view wx:if="{{showPicker}}" class="date-picker">
+    <view class="date-picker-mask" catchtouchstart="onTouchmask"></view>
+    <view class="date-picker-content" catchtouchstart="onTouchmask">
+        <view class='date-picker-content-top' catchtouchstart="onTouchmask">
+            <image class="date-picker-content-cancel" hover-class="hover-class" src="../../images/ic_close.png" catchtouchend="onCacnelClick"/>
+        </view>
+        <view class="date-picker-content-title" catchtouchstart="onTouchmask">设置结束时间</view>
+        <view class="date-picker-content-center" catchtouchstart="onTouchmask">
+            <picker-view class="date-picker-content-item" indicator-style="height: 77px; color: #000000" value="{{tempHourPos}}" bindchange="hour_onChange">
+                <picker-view-column>
+                    <view class="date-picker-content-item-text" wx:for="{{hours}}" wx:key="*this" >{{item}}</view>
+                </picker-view-column>
+            </picker-view>
+            <view class="date-picker-content-item-middle">:</view>
+            <picker-view class="date-picker-content-item" indicator-style="height: 77px; color: #000000" value="{{tempMinutePos}}" bindchange="minute_onChange">
+                <picker-view-column>
+                    <view class="date-picker-content-item-text" wx:for="{{minutes}}" wx:key="*this">{{item}}</view>
+                </picker-view-column>
+            </picker-view>
+        </view>
+        <view class="date-picker-content-sure"  hover-class="hover-class" catchtouchend="onSureClick">
+            确认
+        </view>
+    </view>
+</view>

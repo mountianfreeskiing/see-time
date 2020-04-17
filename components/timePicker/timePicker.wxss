@@ -1,0 +1,120 @@
+/* components/timePicker.wxss */
+@keyframes fade-in {
+  0% {
+    top: 1000rpx;
+    opacity: 0;
+  }/*初始状态 透明度为0*/
+
+  40% {
+    top: 1000rpx;
+    opcity: 0;
+  }/*过渡状态 透明度为0*/
+
+  100% {
+    margin-top: 0rpx;
+    opacity: 1;
+  }/*结束状态 透明度为1*/
+}
+
+.date-picker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+  animation: fade-in 0.5s ease 1 forwards; 
+}
+
+.date-picker-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #353535;
+  opacity: 0.2;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.date-picker-content {
+  position: absolute;
+  bottom: 40%;
+  left: 0;
+  width: 650rpx;
+  height: 724rpx;
+  margin-right: 48rpx;
+  margin-left: 48rpx;
+  box-shadow:0px 8px 81px 0px rgba(246,224,123,1);
+  border-radius:31px;
+  background-color: #fff;
+  z-index: 33;
+  overflow: hidden;
+}
+
+.date-picker-content-top {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hover-class {
+  background-color: #e6e6e6;
+}
+
+.date-picker-content-cancel {
+  width: 84rpx;
+  height: 89rpx;
+  margin: 29rpx 17rpx 0;
+}
+
+.date-picker-content-title {
+  font-size: 54rpx;
+  font-weight: 400;
+  color: #494848;
+  text-align: center;
+}
+
+.date-picker-content-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 300rpx;
+  overflow: hidden;
+  margin-top: 30rpx;
+  margin-bottom: 6rpx;
+  justify-content: space-between;
+}
+
+.date-picker-content-item {
+  width: 50%;
+  height: 231rpx;
+  text-align: center;
+}
+
+.date-picker-content-item-middle {
+  font-size: 80rpx;
+  font-weight: 500;
+  color: #040404;
+}
+
+.date-picker-content-item-text {
+  height: 77px;
+  text-align: center;
+  font-size: 146rpx;
+  vertical-align: middle;
+  font-weight: 500;
+  line-height: 77px;
+  color:#040404;
+}
+
+.date-picker-content-sure {
+  margin-top: 64rpx;
+  font-size: 54rpx;
+  font-weight:400;
+  color: #FEE74A;
+  text-shadow:0px 27px 43px rgba(254,231,74,1);
+  text-align: center;
+  padding: 32rpx 48rpx;
+}

@@ -2,18 +2,21 @@
 <view class="sleep-counter">
   <image class="close-page" src="../../images/ic_close.png" bindtap = "closePage" />
   <view class="sleep-title">今日睡眠时长</view>
-    <view class="time-hour-wrap">
-      <view class="time-hour-bg"></view>
-      <view class="time-hour">7</view>
-      <view class="hour-text">小时</view>
-      <view class="min-hour-bg"></view>
-      <view class="min-hour">45</view>
-      <view class="min-text">分</view>
-    </view>
-
-  <view class="picker-wrap">
-    <picker mode="multiSelector" range="{{dateArray}}" value="{{dateIndex}}" bindchange="datePickerChange">
-      <view class="modify-time">起床时间不对？</view>
-    </picker>
+  <view class="time-hour-wrap">
+    <view class="time-hour-bg"></view>
+    <view class="time-hour">7</view>
+    <view class="hour-text">小时</view>
+    <view class="min-hour-bg"></view>
+    <view class="min-hour">45</view>
+    <view class="min-text">分</view>
   </view>
+
+  <view class="modify-time" bindtap="showDatePicker">起床时间不对？</view>
+
+  <time-picker
+    id="date-picker"
+    value="{{datePickerValue}}" 
+    isShow="{{datePickerIsShow}}"
+    bindsureclick="timePickerOnSureClick"
+    bindcancelclick="timePickerOnCancelClick"></time-picker>
 </view>
