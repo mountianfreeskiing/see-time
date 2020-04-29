@@ -33,6 +33,16 @@ App({
       }
     })
   },
+
+  showToast(title, duration = 1500) {
+    title = title.toString();
+    wx.showToast({
+      title,
+      icon: "none",
+      duration,
+    });
+  },
+
   globalData: {
     userInfo: null
   }

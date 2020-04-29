@@ -66,6 +66,13 @@
 					"id": -1,
 					"name": "睡眠计时",
 					"pathName": "pages/sleepCounter/sleepCounter",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "吃饭",
+					"pathName": "pages/food/food",
 					"scene": null
 				}
 			]

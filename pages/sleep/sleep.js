@@ -199,6 +199,7 @@ Page({
   getUp() {
     this.cancelTimeCount();
     //去统计界面
+    wx.navigateTo({url: '/pages/counter/counter'});
   },
 
   /////////////////////////////////图表

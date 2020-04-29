@@ -1,0 +1,20 @@
+<!--pages/food/food.wxml-->
+<view class="food-page">
+
+  <view class="page-title">今日食材</view>
+  <view class="input-wrap" bind:tap="showInput">
+    <view class="food-input">
+      <view class="ingredient-list" wx:for="{{ingredients}}" wx:key="index">
+        <view class="{{item.isSelected ? '.every-ingredient-select' : 'every-ingredient' }}" data-key="{{index}}" bind:tap="onContentClick">{{item.words}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{isShowInput}}" class="input-pos" style="bottom:{{bottom}}px">
+    <input class="food-input" placeholder="输入食材，空格键区分" focus
+     adjust-position="{{false}}" bindfocus="onFoucus" bindblur="onBlur"
+     placeholder-class="food-input-holder" cursor="27"
+     bindinput="ingredientInput" value="{{value}}">
+    </input>
+  </view>
+</view>

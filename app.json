@@ -4,7 +4,8 @@
     "pages/profile/profile",
     "pages/logs/logs",
     "pages/sleep/sleep",
-    "pages/sleepCounter/sleepCounter"
+    "pages/counter/counter",
+    "pages/food/food"
   ],
   "window": {
     "backgroundTextStyle": "light",
