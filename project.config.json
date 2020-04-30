@@ -3,25 +3,40 @@
 	"packOptions": {
 		"ignore": []
 	},
+	"miniprogramRoot": "/miniprogram",
+	"cloudfunctionRoot": "/cloudfunctions/",
 	"setting": {
 		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
+		"preloadBackgroundData": false,
 		"minified": true,
 		"newFeature": true,
-		"autoAudits": false,
 		"coverView": true,
+		"autoAudits": false,
 		"showShadowRootInWxmlPanel": true,
-		"scopeDataCheck": false
+		"scopeDataCheck": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.10.4",
 	"appid": "wx8b2e5a8151db4f75",
 	"projectname": "see-time",
+	"cloudfunctionTemplateRoot": "",
+	"watchOptions": {
+		"ignore": []
+	},
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
-	"isGameTourist": false,
+	"scripts": {},
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {
@@ -38,7 +53,6 @@
 			"list": []
 		},
 		"game": {
-			"currentL": -1,
 			"list": []
 		},
 		"gamePlugin": {
@@ -73,6 +87,7 @@
 					"id": -1,
 					"name": "吃饭",
 					"pathName": "pages/food/food",
+					"query": "",
 					"scene": null
 				}
 			]
