@@ -3,8 +3,8 @@
 	"packOptions": {
 		"ignore": []
 	},
-	"miniprogramRoot": "/miniprogram",
-	"cloudfunctionRoot": "/cloudfunctions/",
+	"miniprogramRoot": "miniprogram/",
+	"cloudfunctionRoot": "cloudfunctions/",
 	"setting": {
 		"urlCheck": true,
 		"es6": true,
@@ -88,6 +88,12 @@
 					"name": "吃饭",
 					"pathName": "pages/food/food",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/profile/profile",
+					"pathName": "pages/profile/profile",
 					"scene": null
 				}
 			]

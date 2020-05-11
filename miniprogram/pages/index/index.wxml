@@ -1,6 +1,26 @@
 <!--index.wxml-->
 <view class="index-container">
-  <view class="index-entrance" wx:for="{{list}}" wx:key="index">
-    <view class="index-entrance-item" data-index="{{index}}" capture-catch:tap="navigatView">{{item}}</view>
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 重新获取用户信息 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <view class="coin-wraper">
+        <view class="coin-title">币</view>
+        <view class="coin-count">25K</view>
+      </view>
+    </block>
+  </view>
+
+  <view class="index-list-container">
+    <view class="index-entrance" wx:for="{{list}}" wx:key="index">
+      <view class="index-entrance-item" data-index="{{index}}" capture-catch:tap="navigatView">
+        <image class="index-entrance-icon" src="{{item.img}}" />
+        <view class="index-entrance-text">{{item.text}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="caculate-btn-wraper">
+    <view class="caculate-btn">统计</view>
   </view>
 </view>
