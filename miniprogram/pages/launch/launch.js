@@ -1,4 +1,6 @@
 // pages/launch/launch.js
+import * as api from "../../utils/api.js";
+
 const app = getApp()
 const db = wx.cloud.database({
   env: app.DATA_BASE_ENV
@@ -64,60 +66,56 @@ Page({
     }
   },
 
-
 //获取openid同时获取云数据库用户信息
  getOpenid() {
   wx.showLoading({ title: "请稍候" });
-  wx.cloud.callFunction({
-    name: 'login',
-    data: {},
-    success: res => {
-      console.log(res)
-      app.globalData.openid = res.result.openid
-      this.updateUserInfo()
-    },
-    fail: err => {
-      console.error('[云函数] [login] 调用失败', err)
-      this.loginFailed(err)
-    }
-  })
+  api.login().then((res) => {
+    console.log('login success:', res)
+    app.globalData.openid = res.result.data.openid
+    this.updateUserInfo()
+  }).catch((err) => {
+    console.error('[云函数] [login] 调用失败', err)
+    this.loginFailed(err)
+  });
 },
 
 updateUserInfo() {
-  db.collection('user').where({
-    _openid: app.globalData.openid
-  }).get().then(
-    res => {
-      console.log(res)
-      if (res.data.length == 0) {
-        //不存在则添加
-        db.collection('user').add({
-          data: {
-            userInfo: app.globalData.userInfo,
-          }
-        }).then(res => {
-          this.toPageIndex()
-        }).catch(err => {
-          this.loginFailed(err)
-        })
-      } else {
-        //存在则更新
-        db.collection('user').doc(res.data[0]._id).update({
-          data: {
-            userInfo: app.globalData.userInfo,
-          }
-        }).then(res => {
-          this.toPageIndex()
-        }).catch(err => {
-          this.loginFailed(err)
-        })
+  const data = {
+    openId: app.globalData.openid
+  }
+  api.getUser(data).then((result) => {
+    console.log('get success:', result)
+    const res = result.result
+    if (res.data && res.data.length) {
+      //存在则更新
+      const data = {
+        _id: res.data[0]._id,
+        openId: app.globalData.openid,
+        userInfo: app.globalData.userInfo
       }
+      api.updateUser(data).then((res) => {
+        console.log('update success:', res)
+        this.toPageIndex()
+      }).catch((err) => {
+        console.error('[云函数] [update] 调用失败', err)
+        this.loginFailed(err)
+      });
+    } else {
+      //不存在新增
+      const data = {
+        openId: app.globalData.openid,
+        userInfo: app.globalData.userInfo
+      }
+      api.addUser(data).then((res) => {
+        this.toPageIndex()
+      }).catch((err) => {
+        console.error('[云函数] [add] 调用失败', err)
+        this.loginFailed(err)
+      });
     }
-  ).catch(
-    err => {
-      this.loginFailed(err)
-    }
-  )
+  }).catch((err) => {
+    this.loginFailed(err)
+  });
 },
 
 loginFailed(err) {

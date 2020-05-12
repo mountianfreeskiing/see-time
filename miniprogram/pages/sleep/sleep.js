@@ -172,7 +172,7 @@ Page({
     var now = new Date();
     wx.setStorage({
       key: IS_SLEEPING,
-      data: true,
+      data: true
     });
     wx.setStorage({
       key: LAST_SLEEP_TIME,

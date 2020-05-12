@@ -12,6 +12,18 @@ const _ = db.command
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
 
+
+  await db.collection('Orders').add({
+    data: event,
+    success(res) { //成功打印消息
+      console.log('3', res)
+    },
+    fail(res) { //存入数据库失败
+      console.log('订单存入数据库操作失败');
+      //云函数更新
+    }
+  })
+
   return {
     event,
     openid: wxContext.OPENID,
