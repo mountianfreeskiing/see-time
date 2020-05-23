@@ -1,6 +1,6 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
-const TcbRouter = require('tcb-router');
+const TcbRouter = require('tcb-router')
 
 cloud.init({
   env: 'see-time-dev-kql61',
@@ -36,11 +36,10 @@ exports.main = async (event, context) => {
         }
       })
 
-      console.log(res)
       context.body = {
         code: 0,
         message: 'success',
-        data: {},
+        data: res.data,
         event
       }
     } catch (err) {
@@ -59,7 +58,6 @@ exports.main = async (event, context) => {
         openId: event.openId
       }).get();
 
-      console.log(res)
       context.body = {
         code: 0,
         message: 'success',
@@ -84,7 +82,6 @@ exports.main = async (event, context) => {
         }
       });
 
-      console.log(res)
       context.body = {
         code: 0,
         message: 'success',

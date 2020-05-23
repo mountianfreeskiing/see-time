@@ -22,29 +22,38 @@
   width: 100%;
 }
 .sleep-counter .time-hour-wrap .time-hour-bg {
-  width: 124rpx;
+  width: 222rpx;
   height: 83rpx;
   background: #ffdb36;
   border-radius: 36px;
   position: absolute;
   top: 190rpx;
-  left: 15%;
+  left: 8%;
   z-index: -1;
 }
-.sleep-counter .time-hour-wrap .time-hour {
+.sleep-counter .time-hour-wrap .time-hour-single {
   font-size: 165rpx;
   color: #000000;
   font-weight: bold;
   position: absolute;
   top: 68rpx;
-  left: 17%;
+  left: 16%;
+  z-index: 1;
+}
+.sleep-counter .time-hour-wrap .time-hour-double {
+  font-size: 165rpx;
+  color: #000000;
+  font-weight: bold;
+  position: absolute;
+  top: 68rpx;
+  left: 10%;
   z-index: 1;
 }
 .sleep-counter .time-hour-wrap .hour-text {
   font-size: 52rpx;
   color: #E8BF05;
   position: absolute;
-  left: 33%;
+  left: 39%;
   top: 195rpx;
 }
 .sleep-counter .time-hour-wrap .min-hour-bg {
@@ -54,7 +63,7 @@
   border-radius: 36px;
   position: absolute;
   top: 190rpx;
-  left: 48%;
+  left: 54%;
   z-index: -1;
 }
 .sleep-counter .time-hour-wrap .min-hour {
@@ -63,14 +72,14 @@
   font-weight: bold;
   position: absolute;
   top: 68rpx;
-  left: 50%;
+  left: 56%;
   z-index: 1;
 }
 .sleep-counter .time-hour-wrap .min-text {
   font-size: 52rpx;
   color: #E8BF05;
   position: absolute;
-  left: 80%;
+  left: 86%;
   top: 195rpx;
 }
 .sleep-counter .modify-time {

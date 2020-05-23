@@ -1,12 +1,14 @@
 // pages/sleep/sleep.js
+import * as api from "../../utils/api.js";
+
 const wxCharts = require('../../utils/wxcharts.js');
 
-const IS_SLEEPING = 'is_sleeping'
-const LAST_SLEEP_TIME = 'last_sleep_time'
+const app = getApp();
 
 let lineChart = null;
 let show = true;
 let lastSecond = 0;
+
 Page({
 
   data: {
@@ -14,6 +16,11 @@ Page({
     canvasHeight: 0,
     rightText: "睡觉",
     btnBg: '../../images/icon_btn_bg.png',
+    isSleeping: false,
+    startTime: '',
+    id: '',
+    statisticalData: [0, 0, 0, 0, 0, 0, 0],
+    weekData: []
   },
 
   onLoad: function (options) {
@@ -29,14 +36,92 @@ Page({
       }
     })
 
-    let value = wx.getStorageSync(IS_SLEEPING);
-    if (value) {
-      that.setData({
-        rightText: '起床'
-      });
+    this.getCurrentStatus();
+    this.getStatisticalData();
+  },
+
+  getCurrentStatus() {
+    const data = {
+      openId: app.globalData.openid
     }
 
-    that.createChart();
+    api.getSleepStatus(data).then((result) => {
+      console.log("getSleepStatus success:", result)
+      if (result.result.code === 0) {
+        let sleepData = result.result.data
+        if (sleepData.isSleeping) {
+          this.setData({
+            rightText: '起床',
+            isSleeping: sleepData.isSleeping,
+            startTime: sleepData.startTime,
+            id: sleepData._id
+          });
+        }
+      }
+    }).catch((err) => {
+      console.error('[云函数] [getSleepStatus] 调用失败', err)
+    });
+  },
+
+  getStatisticalData() {
+    const that = this
+    const data = {
+      openId: app.globalData.openid
+    }
+    api.getStatisticalData(data).then((result) => {
+      console.log("getStatisticalData success:", result)
+      if (result.result.code === 0) {
+        let sleepList = result.result.data
+
+        sleepList.forEach(function(val, index, arr) {
+          let hour = val.sleepHour
+          let minute = val.sleepMinute
+          const value = hour + minute / 60
+          switch (val.dayString) {
+            case '星期一':
+              that.setData({
+                ['statisticalData[0]']: value
+              })
+            break;
+            case '星期二':
+              that.setData({
+                ['statisticalData[1]']: value
+              })
+              break;
+            case '星期三':
+              that.setData({
+                ['statisticalData[2]']: value
+              })
+              break;
+            case '星期四':
+              that.setData({
+                ['statisticalData[3]']: value
+              })
+              break;
+            case '星期五':
+              that.setData({
+                ['statisticalData[4]']: value
+              })
+              break;
+            case '星期六':
+              that.setData({
+                ['statisticalData[5]']: value
+              })
+              break;
+            case '星期天':
+              that.setData({
+                ['statisticalData[6]']: value
+              })
+              break;
+            default:
+            break;
+          }
+        });
+      }
+      that.createChart();
+    }).catch((err) => {
+      console.error('[云函数] [getStatistical] 调用失败', err)
+    });
   },
 
   onReady: function () {
@@ -49,10 +134,11 @@ Page({
   // 时钟
   drawClock: function () {
     const ctx = wx.createCanvasContext('clock');
-    var height = this.data.canvasHeight;
-    var width = this.data.canvasWidth;
+    const that = this.data;
+    let height = this.data.canvasHeight;
+    let width = this.data.canvasWidth;
     // 设置文字对应的半径
-    var R = width / 4;
+    let R = width / 4;
     ctx.save();
     // 把原点的位置移动到水平居中
     ctx.translate(width * 0.5, height * 0.25);
@@ -86,22 +172,20 @@ Page({
     function drawTimeNumbers(time) {
       // 保存画之前的状态
       ctx.save();
-      ctx.font = "300 71px 'PingFang SC'";
+      ctx.font = "300 60px 'PingFang SC'";
       ctx.fillStyle="black";
       ctx.setTextAlign('center');
       ctx.textBaseline = "middle";
 
       let h = 0, m = 0, s = 0;
       try {
-        let value = wx.getStorageSync(LAST_SLEEP_TIME)
-        if (value != '') {
-         let leftTime = time - value;
-
-            if (leftTime >= 0) {
-                h = Math.floor(leftTime / 1000/ 60/ 60 % 24);
-                m = Math.floor(leftTime / 1000 / 60 % 60);
-                s = Math.floor(leftTime / 1000 % 60 );
-            }
+        if (that.isSleeping && that.startTime !== "") {
+          let leftTime = time - that.startTime;
+          if (leftTime >= 0) {
+              h = Math.floor(leftTime / 1000 / 60 / 60 % 24);
+              m = Math.floor(leftTime / 1000 / 60 % 60);
+              s = Math.floor(leftTime / 1000 % 60 );
+          }
         }
       } catch (e) {
         console.log(e);
@@ -129,24 +213,44 @@ Page({
       //绘制睡眠的时长
       let hourStr, minStr;
       if (h > 10) {
-        hourStr = h + middleStr;
+        hourStr = h//middleStr;
+        ctx.fillText(hourStr, - width / 4 + 20, 7);
+        ctx.save();
+        ctx.font = "300 30px 'PingFang SC'";
+        ctx.fillText('h', - width / 4 + 70, 7);
+        ctx.restore();
       } else {
-        hourStr = '0' + h + middleStr;
+        hourStr = '0' + h//middleStr;
+        ctx.fillText(hourStr, - width / 4 + 20, 7);
+        ctx.save();
+        ctx.font = "300 30px 'PingFang SC'";
+        ctx.fillText('h', - width / 4 + 70, 7);
+        ctx.restore();
       }
       if (m > 10) {
         minStr = m;
+        ctx.fillText(minStr, width / 5 - 40, 7);
+        ctx.save();
+        ctx.font = "300 30px 'PingFang SC'";
+        ctx.fillText('m', width / 5 + 10, 7);
+        ctx.restore();
       } else {
         minStr = '0' + m;
+        ctx.fillText(minStr, width / 5 - 40, 7);
+        ctx.save();
+        ctx.font = "300 30px 'PingFang SC'";
+        ctx.fillText('m', width / 5 + 10, 7);
+        ctx.restore();
       }
-      ctx.fillText(hourStr + minStr, 0, 7);
+      // ctx.fillText(hourStr + minStr, 0, 7);
       // 返回画之前的状态
       ctx.restore();
     };
 
     function Clock() {
       // 实时获取各个参数
-      var now = new Date();
-      var time = now.getTime();
+      let now = new Date();
+      let time = now.getTime();
       // 依次执行各个方法
       drawBackground();
       drawSleepText();
@@ -157,9 +261,7 @@ Page({
   },
 
   startSleepOrGetUp() {
-    let value = wx.getStorageSync(IS_SLEEPING);
-    console.log("value:", value);
-    if (!value) {
+    if (!this.data.isSleeping) {
       //睡觉
       this.goToBed();
     } else {
@@ -169,37 +271,94 @@ Page({
   },
 
   goToBed() {
-    var now = new Date();
-    wx.setStorage({
-      key: IS_SLEEPING,
-      data: true
+    let now = new Date();
+
+    const data = {
+      openId: app.globalData.openid,
+      startTime: now.getTime()
+    }
+
+    wx.showLoading({
+      title: "请稍后...",
+      mask: true
     });
-    wx.setStorage({
-      key: LAST_SLEEP_TIME,
-      data: now.getTime()
+
+    api.startSleep(data).then((result) => {
+      console.log("start sleep success:", result)
+      if (result.result.code === 0) {
+        this.setData({
+          rightText: '起床',
+          isSleeping: true
+        })
+        this.getCurrentStatus()
+      } else {
+        app.showToast("系统内部异常")
+      }
+      wx.hideLoading();
+    }).catch((err) => {
+      console.error('[云函数] [startSleep] 调用失败', err)
+      app.showToast("系统内部异常")
+      wx.hideLoading();
     });
-    this.setData({
-      rightText: '起床'
-    })
   },
 
   cancelTimeCount() {
-    wx.setStorage({
-      key: IS_SLEEPING,
-      data: false,
+    let data = {
+      openId: app.globalData.openid
+    }
+    api.cancel(data).then((result) => {
+      if (result.result.code === 0) {
+        this.setData({
+          rightText: '睡觉',
+          isSleeping: false,
+          startTime: ''
+        })
+      } else {
+        app.showToast("系统内部异常")
+      }
+    }).catch((err) => {
+      console.error('[云函数] [remove] 调用失败', err)
+      app.showToast("系统内部异常")
     });
-    wx.removeStorage({
-      key: LAST_SLEEP_TIME,
-    });
-    this.setData({
-      rightText: '睡觉'
-    })
   },
 
   getUp() {
-    this.cancelTimeCount();
-    //去统计界面
-    wx.navigateTo({url: '/pages/counter/counter'});
+    let now = new Date();
+    let time = now.getTime();
+
+    let data = {
+      _id: this.data.id,
+      openId: app.globalData.openid,
+      endTime: time
+    }
+
+    wx.showLoading({
+      title: "请稍后...",
+      mask: true
+    });
+
+    api.getUp(data).then((result) => {
+      console.log("getUp success:", result)
+      if (result.result.code === 0) {
+        //去统计界面
+        setTimeout(() => {
+          this.setData({
+            rightText: '睡觉',
+            isSleeping: false,
+            startTime: ''
+          })
+          wx.navigateTo({url: `/pages/counter/counter?endTime=${time}`});
+        }, 500);
+      } else {
+        app.showToast("系统内部异常")
+      }
+      wx.hideLoading();
+    }).catch((err) => {
+      console.error('[云函数] [getUp] 调用失败', err)
+      app.showToast("系统内部异常")
+      wx.hideLoading();
+    });
+
   },
 
   /////////////////////////////////图表
@@ -273,7 +432,7 @@ Page({
 
   createSimulationData: function () {
     let categories = [];
-    let data = [];
+    let data = this.data.statisticalData;
     for (let i = 0; i < 7; i++) {
         switch (i) {
           case 0:
@@ -300,11 +459,8 @@ Page({
           default:
             break
         }
-        // data.push(Math.random()*(10-0));
     }
-    for (let j = 0; j < 5; j++) {
-      data.push(Math.random()*(10-0));
-    }
+
     return {
         categories: categories,
         data: data

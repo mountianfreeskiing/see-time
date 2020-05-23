@@ -719,7 +719,7 @@ function getYAxisTextList(series, opts, config) {
     var eachRange = (maxRange - minRange) / config.yAxisSplit;
 
     for (var i = 0; i <= config.yAxisSplit; i++) {
-        range.push(minRange + eachRange * i);
+        range.push(minRange > 0 ? minRange : 0 + (eachRange < 1 ? 1 : eachRange) * i);
     }
     return range.reverse();
 }

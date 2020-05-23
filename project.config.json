@@ -77,9 +77,9 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "睡眠计时",
-					"pathName": "pages/sleepCounter/sleepCounter",
+					"id": 2,
+					"name": "pages/counter/counter",
+					"pathName": "pages/counter/counter",
 					"query": "",
 					"scene": null
 				},
@@ -94,6 +94,7 @@
 					"id": -1,
 					"name": "pages/profile/profile",
 					"pathName": "pages/profile/profile",
+					"query": "",
 					"scene": null
 				}
 			]

@@ -1,5 +1,5 @@
 {
-  "name": "sleep",
+  "name": "content",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "tcb-router": "^1.1.2",
     "wx-server-sdk": "~2.0.2"
   }
 }

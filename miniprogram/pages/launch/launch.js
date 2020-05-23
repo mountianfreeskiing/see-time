@@ -2,9 +2,6 @@
 import * as api from "../../utils/api.js";
 
 const app = getApp()
-const db = wx.cloud.database({
-  env: app.DATA_BASE_ENV
-})
 Page({
 
   /**
