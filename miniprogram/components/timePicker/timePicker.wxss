@@ -41,7 +41,7 @@
 
 .date-picker-content {
   position: absolute;
-  bottom: 40%;
+  bottom: 30%;
   left: 0;
   width: 650rpx;
   height: 724rpx;

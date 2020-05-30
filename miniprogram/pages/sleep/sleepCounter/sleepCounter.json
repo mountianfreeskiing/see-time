@@ -2,5 +2,5 @@
   "usingComponents": {
     "time-picker": "../../components/timePicker/timePicker"
   },
-  "navigationStyle": "custom"
+  "navigationBarTitleText": ""
 }

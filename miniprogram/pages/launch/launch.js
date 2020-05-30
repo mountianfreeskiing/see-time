@@ -65,7 +65,6 @@ Page({
 
 //获取openid同时获取云数据库用户信息
  getOpenid() {
-  wx.showLoading({ title: "请稍候" });
   api.login().then((res) => {
     console.log('login success:', res)
     app.globalData.openid = res.result.data.openid
@@ -117,15 +116,15 @@ updateUserInfo() {
 
 loginFailed(err) {
   console.log(err)
-  wx.hideLoading()
   app.showToast('登录失败')
 },
 
 toPageIndex() {
-  wx.hideLoading()
-  wx.reLaunch({
-    url: "/pages/index/index",
-  })
+  setTimeout(() => {
+    wx.reLaunch({
+      url: "/pages/index/index",
+    })
+  }, 1000);
 },
 
   /**

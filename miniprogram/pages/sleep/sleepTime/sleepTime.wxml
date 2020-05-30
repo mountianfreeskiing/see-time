@@ -4,13 +4,13 @@
       <canvas class="sleep-clock-convas" canvas-id='clock' style='width:100%;height:{{canvasHeight}}px'>
         <view class="btn-wrap" style="margin-top:600rpx">
             <view class="btn-content-wrap" hover-class="button-hover" bindtap="cancelTimeCount">
-              <image src="../../images/icon_btn_bg.png" />
-              <image class='pressed' src="../../images/icon_btn_bg_pressed.png" />
+              <image src="../../../images/icon_btn_bg.png" />
+              <image class='pressed' src="../../../images/icon_btn_bg_pressed.png" />
               <text>取消</text>
             </view>
             <view class="btn-content-wrap" hover-class="button-hover" bindtap="startSleepOrGetUp">
-              <image src="../../images/icon_btn_bg.png" />
-              <image class='pressed' src="../../images/icon_btn_bg_pressed.png" />
+              <image src="../../../images/icon_btn_bg.png" />
+              <image class='pressed' src="../../../images/icon_btn_bg_pressed.png" />
               <text>{{rightText}}</text>
             </view>
         </view>

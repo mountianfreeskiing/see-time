@@ -1,7 +1,7 @@
 // pages/sleep/sleep.js
-import * as api from "../../utils/api.js";
+import * as api from "../../../utils/api.js";
 
-const wxCharts = require('../../utils/wxcharts.js');
+const wxCharts = require('../../../utils/wxcharts.js');
 
 const app = getApp();
 
@@ -347,7 +347,7 @@ Page({
             isSleeping: false,
             startTime: ''
           })
-          wx.navigateTo({url: `/pages/counter/counter?endTime=${time}`});
+          wx.navigateTo({url: `/pages/sleep/sleepCounter/sleepCounter?endTime=${time}`});
         }, 500);
       } else {
         app.showToast("系统内部异常")

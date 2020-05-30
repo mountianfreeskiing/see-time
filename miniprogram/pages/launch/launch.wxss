@@ -1,1 +1,22 @@
-/* pages/launch/launch.wxss */
+.launch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.launch-animate {
+  width: 750rpx;
+  height: 1334rpx;
+  z-index: -1;
+}
+.launch-button {
+  position: fixed;
+  bottom: 305rpx;
+  font-size: 41rpx;
+  color: #F7CF19;
+  font-weight: 300;
+  left: 25%;
+  border: none;
+  background: #FFFFFF;
+  letter-spacing: 10rpx;
+  z-index: 10;
+}

@@ -79,7 +79,7 @@ Page({
     console.log(index);
     switch (index) {
       case 0:
-        wx.navigateTo({ url: '/pages/sleep/sleep' });
+        wx.navigateTo({ url: '/pages/sleep/sleepTime/sleepTime' });
       break;
       case 2:
         wx.navigateTo({ url: '/pages/food/food' });

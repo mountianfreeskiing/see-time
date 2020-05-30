@@ -1,20 +1,13 @@
 .sleep-counter {
   width: 100%;
-  height: 100%;
+  margin-top: 280rpx;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-.sleep-counter .close-page {
-  width: 85rpx;
-  height: 86rpx;
-  margin-top: 154rpx;
-  margin-left: 77rpx;
-}
 .sleep-counter .sleep-title {
   font-size: 54rpx;
   color: #494848;
-  margin-top: 289rpx;
   align-self: center;
 }
 .sleep-counter .time-hour-wrap {

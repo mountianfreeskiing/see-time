@@ -1,6 +1,5 @@
 <!--pages/sleepCounter/sleepCounter.wxml-->
 <view class="sleep-counter">
-  <image class="close-page" src="../../images/ic_close.png" bindtap = "closePage" />
   <view class="sleep-title">本次睡眠时长</view>
   <view class="time-hour-wrap">
     <view class="time-hour-bg"></view>

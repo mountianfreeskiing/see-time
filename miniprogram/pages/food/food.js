@@ -46,9 +46,16 @@ Page({
     });
   },
 
+  delelteItem: function(e) {
+    let key = e.currentTarget.dataset.key;
+    let ingredients = this.data.ingredients
+    ingredients.splice(key, 1)
+
+    this.setData({ ingredients: ingredients })
+  },
+
   //输入聚焦
   onFoucus: function (e) {
-
     const that = this;
 
     that.setData({
@@ -60,7 +67,6 @@ Page({
 
   //失去聚焦
   onBlur: function (e) {
-
     const that = this;
 
     that.setData({

@@ -1,2 +1,7 @@
 <!--pages/launch/launch.wxml-->
-<button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 登录 </button>
+<view class="launch">
+  
+  <image class="launch-animate" src="../../images/launch.gif" />
+
+  <button wx:if="{{!hasUserInfo && canIUse}}" class="launch-button" open-type="getUserInfo" bindgetuserinfo="getUserInfo">立即体验</button>
+</view>

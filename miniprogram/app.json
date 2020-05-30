@@ -4,9 +4,11 @@
     "pages/index/index",
     "pages/profile/profile",
     "pages/logs/logs",
-    "pages/sleep/sleep",
-    "pages/counter/counter",
-    "pages/food/food"
+    "pages/sleep/sleepTime/sleepTime",
+    "pages/sleep/sleepCounter/sleepCounter",
+    "pages/food/food",
+    "pages/work/workContent/workContent",
+    "pages/work/workTime/workTime"
   ],
   "window": {
     "backgroundTextStyle": "light",

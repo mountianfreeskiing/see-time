@@ -2,10 +2,15 @@
 <view class="food-page">
 
   <view class="page-title">今日食材</view>
-  <view class="input-wrap" bind:tap="showInput">
+  <view class="input-wrap" bindtap="showInput">
     <view class="food-input">
       <view class="ingredient-list" wx:for="{{ingredients}}" wx:key="index">
-        <view class="{{item.isSelected ? '.every-ingredient-select' : 'every-ingredient' }}" data-key="{{index}}" bind:tap="onContentClick">{{item.words}}</view>
+        <view class="{{item.isSelected ? '.every-ingredient-select' : 'every-ingredient' }}" data-key="{{index}}" bind:tap="onContentClick">
+          <view class="every-ingredient-text">{{item.words}}</view>
+          <view class="every-ingredient-delelte" data-key="{{index}}" catchtap="delelteItem" hover-stop-propagation='true'>
+            {{item.isSelected ? 'x' : ''}}
+          </view>
+        </view>
       </view>
     </view>
   </view>

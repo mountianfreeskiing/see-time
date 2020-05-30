@@ -1,6 +1,6 @@
 // pages/sleepCounter/sleepCounter.js
 
-import { getCurrentSleepHour, updateGetUpTime } from "../../utils/api.js";
+import { getCurrentSleepHour, updateGetUpTime } from "../../../utils/api.js";
 
 const app = getApp()
 Page({
@@ -54,11 +54,6 @@ Page({
     });
   },
 
-  closePage() {
-    wx.navigateBack({
-      delta: 1
-    });
-  },
 
   showDatePicker: function (e) {
     // this.data.datePicker.show(this);
