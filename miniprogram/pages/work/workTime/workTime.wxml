@@ -1,2 +1,19 @@
 <!--miniprogram/pages/work/workTime/workTime.wxml-->
-<text>miniprogram/pages/work/workTime/workTime.wxml</text>
+<view class="work-time">
+  <view class="work-dynmic-clock" style="width:100%;height:{{canvasHeight}}px">
+      <canvas class="work-clock-convas" canvas-id='clock' style='width:100%;height:{{canvasHeight}}px'>
+        <view class="btn-wrap" style="margin-top:600rpx">
+            <view class="btn-content-wrap" hover-class="button-hover" bindtap="cancelTimeCount">
+              <image src="../../../images/icon_btn_bg.png" />
+              <image class='pressed' src="../../../images/icon_btn_bg_pressed.png" />
+              <text>取消</text>
+            </view>
+            <view class="btn-content-wrap" hover-class="button-hover" bindtap="startWorkOrFinish">
+              <image src="../../../images/icon_btn_bg.png" />
+              <image class='pressed' src="../../../images/icon_btn_bg_pressed.png" />
+              <text>{{rightText}}</text>
+            </view>
+        </view>
+      </canvas>
+  </view>
+</view>

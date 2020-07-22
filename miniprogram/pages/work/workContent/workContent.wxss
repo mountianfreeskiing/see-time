@@ -1,1 +1,202 @@
-/* miniprogram/pages/work/workContent.wxss */
+.work-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.work-content .content-title {
+  color: #000000;
+  font-size: 54rpx;
+  font-weight: 600;
+  margin-left: 44rpx;
+}
+.work-content .input-wrap {
+  min-height: 115rpx;
+  position: relative;
+  border: 6rpx solid transparent;
+  margin: 34rpx 46rpx;
+  background: #ffffff;
+  box-shadow: 0px 12rpx 0px 0px #ffd618;
+  border-radius: 43rpx;
+  display: flex;
+  align-items: center;
+}
+.work-content .input-wrap .content-input-holder {
+  color: #F9D569;
+  font-size: 36rpx;
+  font-weight: 400;
+}
+.work-content .input-wrap .content-input {
+  width: 100%;
+  color: #686766;
+  font-size: 36rpx;
+  font-weight: 400;
+  caret-color: #F9D569;
+  line-height: 55rpx;
+}
+.work-content .input-wrap .content-input .ingredient-list {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  margin: 10rpx 10rpx;
+}
+.work-content .input-wrap .content-input .ingredient-list .every-ingredient {
+  max-width: 220rpx;
+  min-height: 55rpx;
+  align-items: center;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+}
+.work-content .input-wrap .content-input .ingredient-list .every-ingredient-select {
+  max-width: 220rpx;
+  min-height: 55rpx;
+  align-items: center;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  border: 3rpx solid hsl(49, 100%, 55%);
+  border-radius: 24rpx;
+  padding: 0 22rpx;
+  z-index: 2;
+  box-shadow: 5rpx 5rpx 5rpx #F9D569;
+}
+.work-content .input-wrap .content-input .ingredient-list .every-ingredient-delelte {
+  font-size: 60rpx;
+  color: #FFD618;
+  align-items: center;
+  font-weight: 300;
+  margin: 0 0 5rpx 18rpx;
+}
+.work-content .input-wrap .content-input .ingredient-list .every-ingredient-text {
+  color: #686766;
+  font-size: 36rpx;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.work-content .input-wrap::after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  bottom: -20rpx;
+  left: -10rpx;
+  border-radius: 43rpx;
+  background: linear-gradient(0deg, #ffc618, #e8c6fd);
+  z-index: -1;
+}
+.work-content .input-pos {
+  width: 70%;
+  min-height: 115rpx;
+  border: 6rpx solid transparent;
+  margin: 34rpx 46rpx;
+  background: #ffffff;
+  box-shadow: 0px 2rpx 0px 0px #ffd618;
+  display: flex;
+  border-radius: 15rpx;
+  align-items: center;
+  position: fixed;
+}
+.work-content .input-pos .real-input {
+  width: 100%;
+  color: #686766;
+  font-size: 36rpx;
+  font-weight: 400;
+  caret-color: #F9D569;
+  line-height: 55rpx;
+}
+.work-content .input-pos .real-input-holder {
+  color: #F9D569;
+  font-size: 36rpx;
+  font-weight: 400;
+}
+.work-content .history {
+  display: flex;
+  flex-direction: row;
+  margin: 20rpx 70rpx;
+  overflow: scroll;
+}
+.work-content .history .history-list-item {
+  background: #ffd618;
+  border-radius: 32rpx;
+  font-size: 33rpx;
+  font-weight: 400;
+  color: #ffffff;
+  padding: 10rpx 20rpx;
+  flex-shrink: 1;
+  margin-right: 20rpx;
+  white-space: nowrap;
+}
+.work-content .history::-webkit-scrollbar {
+  display: none;
+}
+.work-content .btn-content-wrap {
+  width: 130rpx;
+  height: 150rpx;
+  margin: 80rpx 46rpx;
+  line-height: 130rpx;
+  float: right;
+  position: relative;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 130rpx 129rpx;
+}
+.work-content .btn-content-wrap .pressed {
+  display: none;
+}
+.work-content .btn-content-wrap > image {
+  width: 130rpx;
+  height: 129rpx;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.work-content .btn-content-wrap > text {
+  color: #000000;
+  font-size: 28rpx;
+  position: absolute;
+  z-index: 1;
+  left: 37rpx;
+  top: 0;
+}
+.work-content .button-hover .pressed {
+  display: inline;
+}
+.work-content .button-hover > text {
+  color: #ffffff;
+}
+.work-content .bottom-work-time-count {
+  position: fixed;
+  bottom: 102rpx;
+  width: 300rpx;
+  left: calc(50% - 150rpx);
+}
+.work-content .bottom-work-time-count .work-time-total-wrap {
+  position: relative;
+  width: 100%;
+}
+.work-content .bottom-work-time-count .work-time-total-wrap .work-time-text-bg {
+  width: 300rpx;
+  height: 40rpx;
+  background: #ffdb36;
+  border-radius: 36px;
+  z-index: -1;
+  position: absolute;
+  top: 30rpx;
+}
+.work-content .bottom-work-time-count .work-time-total-wrap .work-time-text {
+  font-size: 46rpx;
+  font-weight: 500;
+  color: #0b0b0b;
+  z-index: 1;
+  text-align: center;
+}
+.work-content .bottom-work-time-count .today-work-time-text {
+  font-size: 30rpx;
+  color: #fbc60d;
+  text-align: center;
+  margin-top: 20rpx;
+}

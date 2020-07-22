@@ -1,0 +1,219 @@
+.work-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .content-title {
+    color: #000000;
+    font-size:54rpx;
+    font-weight: 600;
+    margin-left: 44rpx;
+  }
+  
+  .input-wrap {
+    min-height: 115rpx;
+    position: relative;
+    border: 6rpx solid transparent;
+    margin: 34rpx 46rpx;
+    background: #ffffff;
+    box-shadow: 0px 12rpx 0px 0px rgba(255,214,24,1);
+    border-radius: 43rpx;
+    display: flex;
+    align-items: center;
+
+    .content-input-holder {
+      color: #F9D569;
+      font-size: 36rpx;
+      font-weight:400;
+    }
+
+    .content-input {
+      width: 100%;
+      color: #686766;
+      font-size: 36rpx;
+      font-weight:400;
+      caret-color: #F9D569;
+      line-height: 55rpx;
+
+      .ingredient-list {
+        display: inline-flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: center;
+        margin: 10rpx 10rpx;
+
+        .every-ingredient {
+          max-width: 220rpx;
+          min-height: 55rpx;
+          align-items: center;
+          z-index: 1;
+          display: flex;
+          flex-direction: row;
+        }
+
+        .every-ingredient-select {
+          .every-ingredient();
+          border:3rpx solid hsl(49, 100%, 55%);
+          border-radius:24rpx;
+          padding: 0 22rpx;
+          z-index: 2;
+          box-shadow: 5rpx 5rpx 5rpx #F9D569;
+        }
+
+        .every-ingredient-delelte {
+          font-size: 60rpx;
+          color: #FFD618;
+          align-items: center;
+          font-weight: 300;
+          margin: 0 0 5rpx 18rpx;          
+        }
+
+        .every-ingredient-text {
+          color: #686766;
+          font-size: 36rpx;
+          font-weight: 400;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  .input-wrap::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: -10rpx;
+    right: -10rpx;
+    bottom: -20rpx;
+    left: -10rpx;
+    border-radius: 43rpx;
+    background: linear-gradient(0deg, rgba(255,198,24,1), rgba(232,198,253,1));
+    z-index: -1;
+  }
+
+  .input-pos {
+    width: 70%;
+    min-height: 115rpx;
+    border: 6rpx solid transparent;
+    margin: 34rpx 46rpx;
+    background: #ffffff;
+    box-shadow: 0px 2rpx 0px 0px rgba(255,214,24,1);
+    display: flex;
+    border-radius: 15rpx;
+    align-items: center;
+    position: fixed;
+
+    .real-input {
+      width: 100%;
+      color: #686766;
+      font-size: 36rpx;
+      font-weight:400;
+      caret-color: #F9D569;
+      line-height: 55rpx;
+    }
+
+    .real-input-holder {
+      color: #F9D569;
+      font-size: 36rpx;
+      font-weight:400;
+    }
+  }
+
+  .history {
+    display: flex;
+    flex-direction: row;
+    margin: 20rpx 70rpx;
+    overflow: scroll;
+
+    .history-list-item {
+      background: rgba(255,214,24,1);
+      border-radius: 32rpx;
+      font-size: 33rpx;
+      font-weight: 400;
+      color: rgba(255,255,255,1);
+      padding: 10rpx 20rpx;
+      flex-shrink: 1;
+      margin-right: 20rpx;
+      white-space: nowrap;
+    }
+  }
+
+  .history::-webkit-scrollbar {
+    display: none;
+  }
+
+  .btn-content-wrap {
+    width: 130rpx;
+    height: 150rpx;
+    margin: 80rpx 46rpx;
+    line-height: 130rpx;
+    float: right;
+    position: relative;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 130rpx 129rpx;
+    .pressed {
+      display: none;
+    }
+    > image {
+      width: 130rpx; 
+      height: 129rpx;
+      position:absolute;
+      left:0;
+      top:0;
+
+    }
+    > text {
+      color: #000000;
+      font-size: 28rpx;
+      position:absolute;
+      z-index: 1;
+      left:37rpx;
+      top:0;
+    }
+  }
+
+  .button-hover {
+    .pressed {
+      display: inline;
+    }
+    > text {
+      color: #ffffff;
+    }
+  }
+
+  .bottom-work-time-count {
+    position: fixed;
+    bottom: 102rpx;
+    width: 300rpx;
+    left: calc(50% - 150rpx);
+    .work-time-total-wrap {
+      position: relative;
+      width: 100%;
+      .work-time-text-bg {
+        width: 300rpx;
+        height: 40rpx;
+        background: rgba(255,219,54,1);
+        border-radius: 36px;
+        z-index: -1;
+        position: absolute;
+        top: 30rpx;
+      }
+      .work-time-text {
+        font-size: 46rpx;
+        font-weight: 500;
+        color: rgba(11,11,11,1);
+        z-index: 1;
+        text-align: center;
+      }
+    }
+    .today-work-time-text {
+      font-size: 30rpx;
+      color: rgba(251,198,13,1);
+      text-align: center;
+      margin-top: 20rpx;
+    }
+  }
+}

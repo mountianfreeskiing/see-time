@@ -1,0 +1,52 @@
+.work-time {
+  .work-dynmic-clock {
+    margin-top: 22rpx;
+
+    .work-clock-convas {
+      .btn-wrap {
+        width: 100%;
+        display: inline-flex;
+        justify-content: space-between;
+        .btn-content-wrap {
+          width: 130rpx;
+          height: 150rpx;
+          margin: 0 80rpx 0 80rpx;
+          line-height: 130rpx;
+          position: relative;
+          display: inline-block;
+          background-color: transparent;
+          background-repeat: no-repeat;
+          background-size: 130rpx 129rpx;
+          .pressed {
+            display: none;
+          }
+          > image {
+            width: 130rpx;
+            height: 129rpx;
+            position:absolute;
+            left:0;
+            top:0;
+
+          }
+          > text {
+            color: #000000;
+            font-size: 28rpx;
+            position:absolute;
+            z-index: 1;
+            left:37rpx;
+            top:0;
+          }
+        }
+
+        .button-hover {
+          .pressed {
+            display: inline;
+          }
+          > text {
+            color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+}

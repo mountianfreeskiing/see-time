@@ -24,7 +24,9 @@
 			"disablePlugins": [],
 			"outputPath": ""
 		},
-		"useCompilerModule": false
+		"useIsolateContext": true,
+		"useCompilerModule": false,
+		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.10.4",
@@ -103,6 +105,19 @@
 					"name": "pages/launch/launch",
 					"pathName": "pages/launch/launch",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "工作",
+					"pathName": "pages/work/workContent/workContent",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "工作时长",
+					"pathName": "pages/work/workTime/workTime",
 					"scene": null
 				}
 			]

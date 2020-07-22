@@ -5,7 +5,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    ingredients: [{}],
+    history:[
+      "猫", "APP", "小游戏", "哈哈", "eweqw", "321321", "eqwewqe", "321323"
+    ],
+    value: "",
+    isShowInput: false,
+    bottom: 0,
+    totalTime: "17小时28分钟"
   },
 
   /**
@@ -15,52 +22,105 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+  ingredientInput(e) {
+    let words = e.detail.value;
+    let { ingredients } = this.data;
+    if (words.length > 0 && words.charCodeAt(0) !== 32 && words.charCodeAt(0) !== 10 &&
+      (words.charCodeAt(words.length - 1) === 32 || words.charCodeAt(words.length - 1) === 10)) {
+      words = words.replace(" ", "");
+      ingredients.push({
+        words: words,
+        isSelected: false
+      });
+      this.setData({
+        ingredients: ingredients,
+        value: ""
+      })
+    } else {
+      words = words.replace(" ", "");
+      this.setData({
+        value: words
+      })
+    }
+  },
+
+  showInput() {
+    this.setData({
+      isShowInput: true
+    });
+  },
+
+  addItem(e) {
+    let text = e.currentTarget.dataset.text;
+    console.log(text)
+    let { ingredients } = this.data;
+    text = text.replace(" ", "");
+    ingredients.push({
+      words: text,
+      isSelected: false
+    });
+    this.setData({
+      ingredients: ingredients
+    })
+  },
+
+  deleteItem: function(e) {
+    const key = e.currentTarget.dataset.key;
+    let ingredients = this.data.ingredients
+    ingredients.splice(key, 1)
+
+    this.setData({ ingredients: ingredients })
+  },
+
+  //输入聚焦
+  onFoucus: function (e) {
+    const that = this;
+
+    that.setData({
+      bottom: e.detail.height
+    })
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
+  //失去聚焦
+  onBlur: function (e) {
+    const that = this;
 
+    that.setData({
+      bottom: 0,
+      isShowInput: false
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
+  onContentClick: function(e) {
+    const that = this;
+    let key = e.currentTarget.dataset.key;
+    if (key >= 1) {
+      this.data.ingredients.forEach(function(val, index, arr){
+        console.log("value1", val);
+        console.log("index", index);
+        console.log("key", key);
+        let isSelected = "ingredients["+index+"].isSelected";
+        if (index === key) {
+          that.setData({
+            [isSelected]: true
+          })
+        } else {
+          that.setData({
+            [isSelected]: false
+          })
+        }
+      });
 
+      this.data.ingredients.forEach(function(val, index, arr){
+        console.log("value2", val);
+      });
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  startWorking() {
+    wx.navigateTo({
+      url: '/pages/work/workTime/workTime'
+    });
   }
 })

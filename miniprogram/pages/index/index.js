@@ -81,6 +81,9 @@ Page({
       case 0:
         wx.navigateTo({ url: '/pages/sleep/sleepTime/sleepTime' });
       break;
+      case 1:
+        wx.navigateTo({ url: '/pages/work/workContent/workContent' });
+        break
       case 2:
         wx.navigateTo({ url: '/pages/food/food' });
         break;

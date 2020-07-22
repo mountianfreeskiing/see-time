@@ -1,2 +1,36 @@
-<!--miniprogram/pages/work/workContent.wxml-->
-<text>miniprogram/pages/work/workContent.wxml</text>
+<!-- miniprogram/pages/work/workContent.wxml -->
+<view class="work-content">
+  <view class="content-title">今日工作</view>
+  <view class="input-wrap" bindtap="showInput">
+    <view class="content-input">
+      <view class="ingredient-list" wx:for="{{ingredients}}" wx:key="index">
+        <view class="{{item.isSelected ? '.every-ingredient-select' : 'every-ingredient' }}" data-key="{{index}}" bind:tap="onContentClick">
+          <view class="every-ingredient-text">{{item.words}}</view>
+          <view class="every-ingredient-delelte" data-key="{{index}}" catchtap="deleteItem" hover-stop-propagation='true'>
+            {{item.isSelected ? 'x' : ''}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="history">
+    <view class="history-list" wx:for="{{history}}" wx:key="index">
+      <view class="history-list-item" bind:tap="addItem" data-text="{{item}}">{{item}}</view>
+    </view>
+  </view>
+  <view class="btn-content-wrap" hover-class="button-hover" bindtap="startWorking">
+    <image src="../../../images/icon_btn_bg.png" />
+    <image class='pressed' src="../../../images/icon_btn_bg_pressed.png" />
+    <text>开始</text>
+  </view>
+  <view class="bottom-work-time-count">
+    <view class="work-time-total-wrap">
+      <view class="work-time-text-bg"></view>
+      <view class="work-time-text">{{totalTime}}</view>
+    </view>
+    <view class="today-work-time-text">今日工作时长</view>
+  </view>
+  <view wx:if="{{isShowInput}}" class="input-pos" style="bottom:{{bottom}}px">
+    <input class="real-input" placeholder="输入工作种类名称，空格键区分" focus adjust-position="{{false}}" bindfocus="onFoucus" bindblur="onBlur" placeholder-class="real-input-holder" cursor="27" bindinput="ingredientInput" value="{{value}}"></input>
+  </view>
+</view>

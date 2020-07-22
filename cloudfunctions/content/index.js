@@ -15,294 +15,362 @@ const $ = _.aggregate
 exports.main = async (event, context) => {
   const app = new TcbRouter({ event });
 
-  app.router('startSleep', async (context) => {
-    try {
-      res = await db.collection('sleep').where({
-        endTime: "",
-        openId: event.openId
-      }).get();
 
-      if (res.data && res.data.length) {
-        context.body = {
-          code: 100,
-          message: '还有未起床的任务，暂时不能增加',
-          data: res.data,
-          event
-        }
-      } else {
-        res = await db.collection('sleep').add({
-          data: {
-            openId: event.openId,
-            startTime: event.startTime,
-            endTime: "",
-            date: '',
-            sleepHour: 0,
-            sleepMinute: 0,
-            sleepSecond: 0
-          }
-        })
+  // 睡眠
 
-        context.body = {
-          code: 0,
-          message: 'success',
-          data: res.data,
-          event
-        }
-      }
-    } catch (err) {
-      context.body = {
-        code: 100,
-        message: err,
-        data: {},
-        event
-      }
-    }
+  app.router('sleep/startSleep', async (context) => {
+    context.body = startSleep(event);
   });
 
-  app.router('getSleepStatus', async (context) => {
-    try {
-      res = await db.collection('sleep').where({
-        endTime: "",
-        openId: event.openId
-      }).get();
-
-      if (res.data && res.data.length) {
-        res.data[0].isSleeping = true
-        context.body = {
-          code: 0,
-          message: 'success',
-          data: res.data[0],
-          event
-        }
-      } else {
-        context.body = {
-          code: 0,
-          message: 'success',
-          data: res.data,
-          event
-        }
-      }
-    } catch (err) {
-      context.body = {
-        code: 100,
-        message: err,
-        data: {},
-        event
-      }
-    }
+  app.router('sleep/getSleepStatus', async (context) => {
+    context.body = getSleepStatus(event);
   });
 
-  app.router('getUp', async (context) => {
-    try {
-      res = await db.collection('sleep').where({
-        endTime: "",
-        openId: event.openId
-      }).get();
-
-      if (res.data && res.data.length) {
-        //更新起床时间
-        let startTime = res.data[0].startTime;
-        let date = new Date(startTime)
-        let dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-
-        let sleepTime = event.endTime - startTime;
-        let h = 0, m = 0, s = 0;
-        if (sleepTime > 0) {
-          h = Math.floor(sleepTime / 1000 / 60 / 60 % 24);
-          m = Math.floor(sleepTime / 1000 / 60 % 60);
-          s = Math.floor(sleepTime / 1000 % 60);
-        }
-
-        res = await db.collection('sleep').doc(event._id).update({
-          data: {
-            endTime: event.endTime,
-            date: dateString,
-            sleepHour: h,
-            sleepMinute: m,
-            sleepSecond: s
-          }
-        });
-
-        context.body = {
-          code: 0,
-          message: 'success',
-          data: res.data,
-          event
-        }
-      } else {
-        context.body = {
-          code: 100,
-          message: '没有要起床的任务',
-          data: res,
-          event
-        }
-      }
-    } catch (err) {
-      context.body = {
-        code: 100,
-        message: err,
-        data: {},
-        event
-      }
-    }
+  app.router('sleep/getUp', async (context) => {
+    context.body = sleepGetUp(event);
   });
 
-  app.router('remove', async (context) => {
-    try {
-      res = await db.collection('sleep').where({
-        endTime: "",
-        openId: event.openId
-      }).remove();
-
-      context.body = {
-        code: 0,
-        message: 'success',
-        data: res.data,
-        event
-      }
-    } catch (err) {
-      context.body = {
-        code: 100,
-        message: err,
-        data: {},
-        event
-      }
-    }
+  app.router('sleep/remove', async (context) => {
+    context.body = removeSleepData(event);
   });
 
-  app.router('calStatistical', async (context) => {
-    context.body = calStatistical(event);
+  app.router('sleep/calStatistical', async (context) => {
+    context.body = sleepCalStatistical(event);
   });
 
-  app.router('getStatistical', async (context) => {
-    try {
-      res = await db.collection('statistical').where({
-        openId: event.openId,
-
-      })
-      .orderBy('updateTime', 'desc')
-      .limit(7)
-      .get();
-
-      context.body = {
-        code: 0,
-        message: 'success',
-        data: res.data,
-        event
-      }
-    } catch (err) {
-      context.body = {
-        code: 100,
-        message: err,
-        data: {},
-        event
-      }
-    }
+  app.router('sleep/getStatistical', async (context) => {
+    context.body = getSleepStatistical(event);
   });
 
-  app.router('getCurrentSleepHour', async (context) => {
-    try {
-      res = await db.collection('sleep').where({
-        openId: event.openId,
-        endTime: event.endTime
-      })
-      .get();
-
-      context.body = {
-        code: 0,
-        message: 'success',
-        data: res.data,
-        event
-      }
-    } catch (err) {
-      context.body = {
-        code: 100,
-        message: err,
-        data: {},
-        event
-      }
-    }
+  app.router('sleep/getCurrentSleepHour', async (context) => {
+    context.body = getCurrentSleepHour(event);
   });
 
-  app.router('getDaySleepHour', async (context) => {
-    try {
-      res = await db.collection('statistical').where({
-        openId: event.openId,
-        date: event.date
-      })
-      .get();
-
-      context.body = {
-        code: 0,
-        message: 'success',
-        data: res.data,
-        event
-      }
-    } catch (err) {
-      context.body = {
-        code: 100,
-        message: err,
-        data: {},
-        event
-      }
-    }
+  app.router('sleep/getDaySleepHour', async (context) => {
+    context.body = getTodaySleepHour(event);
   });
 
-  app.router('updateGetUp', async (context) => {
-    try {
-
-      res = await db.collection('sleep').where({
-        openId: event.openId,
-        endTime: event.originEndTime
-      })
-      .get();
-
-      if (res.data && res.data.length) {
-        let startTime = res.data[0].startTime;
-        let sleepTime = event.endTime - startTime;
-        let h = 0, m = 0, s = 0;
-        if (sleepTime > 0) {
-          h = Math.floor(sleepTime / 1000 / 60 / 60 % 24);
-          m = Math.floor(sleepTime / 1000 / 60 % 60);
-          s = Math.floor(sleepTime / 1000 % 60);
-        }
-        res = await db.collection('sleep').doc(res.data[0]._id).update({
-          data: {
-            endTime: event.endTime,
-            sleepHour: h,
-            sleepMinute: m,
-            sleepSecond: s
-          }
-        });
-  
-        context.body = {
-          code: 0,
-          message: 'success',
-          data: res.data,
-          event
-        }
-      } else {
-        context.body = {
-          code: 100,
-          message: '找不到记录',
-          data: {},
-          event
-        }
-      }
-    } catch (err) {
-      context.body = {
-        code: 100,
-        message: err,
-        data: res,
-        event
-      }
-    }
+  app.router('sleep/updateGetUp', async (context) => {
+    context.body = sleepUpdateGetUp(event);
   });
+
+  // 工作
+
+
 
   return app.serve();
 }
 
-async function calStatistical(event) {
+/*******               Function                    ******/
+
+// 睡眠
+
+async function startSleep(event) {
+  let body = {}
+
+  try {
+    res = await db.collection('sleep').where({
+      endTime: "",
+      openId: event.openId
+    }).get();
+
+    if (res.data && res.data.length) {
+      body = {
+        code: 100,
+        message: '还有未起床的任务，暂时不能增加',
+        data: res.data,
+        event
+      }
+    } else {
+      res = await db.collection('sleep').add({
+        data: {
+          openId: event.openId,
+          startTime: event.startTime,
+          endTime: "",
+          date: '',
+          sleepHour: 0,
+          sleepMinute: 0,
+          sleepSecond: 0
+        }
+      })
+
+      body = {
+        code: 0,
+        message: 'success',
+        data: res.data,
+        event
+      }
+    }
+  } catch (err) {
+    body = {
+      code: 100,
+      message: err,
+      data: {},
+      event
+    }
+  }
+
+  return body;
+}
+
+async function getSleepStatus(event) {
+  let body = {}
+  try {
+    res = await db.collection('sleep').where({
+      endTime: "",
+      openId: event.openId
+    }).get();
+
+    if (res.data && res.data.length) {
+      res.data[0].isSleeping = true
+      body = {
+        code: 0,
+        message: 'success',
+        data: res.data[0],
+        event
+      }
+    } else {
+      body = {
+        code: 0,
+        message: 'success',
+        data: res.data,
+        event
+      }
+    }
+  } catch (err) {
+    body = {
+      code: 100,
+      message: err,
+      data: {},
+      event
+    }
+  }
+
+  return body;
+}
+
+async function sleepGetUp(event) {
+  let body = {}
+  try {
+    res = await db.collection('sleep').where({
+      endTime: "",
+      openId: event.openId
+    }).get();
+
+    if (res.data && res.data.length) {
+      //更新起床时间
+      let startTime = res.data[0].startTime;
+      let date = new Date(startTime)
+      let dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+
+      let sleepTime = event.endTime - startTime;
+      let h = 0, m = 0, s = 0;
+      if (sleepTime > 0) {
+        h = Math.floor(sleepTime / 1000 / 60 / 60 % 24);
+        m = Math.floor(sleepTime / 1000 / 60 % 60);
+        s = Math.floor(sleepTime / 1000 % 60);
+      }
+
+      res = await db.collection('sleep').doc(event._id).update({
+        data: {
+          endTime: event.endTime,
+          date: dateString,
+          sleepHour: h,
+          sleepMinute: m,
+          sleepSecond: s
+        }
+      });
+
+      body = {
+        code: 0,
+        message: 'success',
+        data: res.data,
+        event
+      }
+    } else {
+      body = {
+        code: 100,
+        message: '没有要起床的任务',
+        data: res,
+        event
+      }
+    }
+  } catch (err) {
+    body = {
+      code: 100,
+      message: err,
+      data: {},
+      event
+    }
+  }
+  
+  return body;
+}
+
+async function removeSleepData(event) {
+  let body = {}
+  try {
+    res = await db.collection('sleep').where({
+      endTime: "",
+      openId: event.openId
+    }).remove();
+
+    body = {
+      code: 0,
+      message: 'success',
+      data: res.data,
+      event
+    }
+  } catch (err) {
+    body = {
+      code: 100,
+      message: err,
+      data: {},
+      event
+    }
+  }
+
+  return body;
+}
+
+async function getSleepStatistical(event) {
+  let body = {}
+  try {
+    res = await db.collection('statistical').where({
+      openId: event.openId,
+
+    })
+    .orderBy('updateTime', 'desc')
+    .limit(7)
+    .get();
+
+    body = {
+      code: 0,
+      message: 'success',
+      data: res.data,
+      event
+    }
+  } catch (err) {
+    body = {
+      code: 100,
+      message: err,
+      data: {},
+      event
+    }
+  }
+
+  return body;
+}
+
+async function getCurrentSleepHour(event) {
+  let body = {}
+  try {
+    res = await db.collection('sleep').where({
+      openId: event.openId,
+      endTime: event.endTime
+    })
+    .get();
+
+    body = {
+      code: 0,
+      message: 'success',
+      data: res.data,
+      event
+    }
+  } catch (err) {
+    body = {
+      code: 100,
+      message: err,
+      data: {},
+      event
+    }
+  }
+
+  return body;
+}
+
+async function getTodaySleepHour(event) {
+  let body = {}
+  try {
+    res = await db.collection('statistical').where({
+      openId: event.openId,
+      date: event.date
+    })
+    .get();
+
+    body = {
+      code: 0,
+      message: 'success',
+      data: res.data,
+      event
+    }
+  } catch (err) {
+    body = {
+      code: 100,
+      message: err,
+      data: {},
+      event
+    }
+  }
+
+  return body;
+}
+
+async function sleepUpdateGetUp(event) {
+  let body = {}
+  try {
+
+    res = await db.collection('sleep').where({
+      openId: event.openId,
+      endTime: event.originEndTime
+    })
+    .get();
+
+    if (res.data && res.data.length) {
+      let startTime = res.data[0].startTime;
+      let sleepTime = event.endTime - startTime;
+      let h = 0, m = 0, s = 0;
+      if (sleepTime > 0) {
+        h = Math.floor(sleepTime / 1000 / 60 / 60 % 24);
+        m = Math.floor(sleepTime / 1000 / 60 % 60);
+        s = Math.floor(sleepTime / 1000 % 60);
+      }
+      res = await db.collection('sleep').doc(res.data[0]._id).update({
+        data: {
+          endTime: event.endTime,
+          sleepHour: h,
+          sleepMinute: m,
+          sleepSecond: s
+        }
+      });
+
+      body = {
+        code: 0,
+        message: 'success',
+        data: res.data,
+        event
+      }
+    } else {
+      body = {
+        code: 100,
+        message: '找不到记录',
+        data: {},
+        event
+      }
+    }
+  } catch (err) {
+    body = {
+      code: 100,
+      message: err,
+      data: res,
+      event
+    }
+  }
+
+  return body;
+}
+
+async function sleepCalStatistical(event) {
   let body = {}
   try {
     //聚合操作把时分小时计算出来
@@ -400,3 +468,6 @@ async function calStatistical(event) {
 
   return body
 }
+
+// 工作
+
