@@ -19,9 +19,9 @@
     </view>
   </view>
   <view class="btn-content-wrap" hover-class="button-hover" bindtap="startWorking">
-    <image src="../../../images/icon_btn_bg.png" />
-    <image class='pressed' src="../../../images/icon_btn_bg_pressed.png" />
-    <text>开始</text>
+    <!-- <image src="../../../images/icon_btn_bg.png" />
+    <image class='pressed' src="../../../images/icon_btn_bg_pressed.png" /> -->
+    <view class="btn-start">开始</view>
   </view>
   <view class="bottom-work-time-count">
     <view class="work-time-total-wrap">

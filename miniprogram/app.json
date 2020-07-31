@@ -8,7 +8,8 @@
     "pages/sleep/sleepCounter/sleepCounter",
     "pages/food/food",
     "pages/work/workContent/workContent",
-    "pages/work/workTime/workTime"
+    "pages/work/workTime/workTime",
+    "pages/work/workCounter/workCounter"
   ],
   "window": {
     "backgroundTextStyle": "light",

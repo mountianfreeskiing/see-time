@@ -1,0 +1,85 @@
+.work-counter {
+  width: 100%;
+  margin-top: 280rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.work-counter .work-title {
+  font-size: 54rpx;
+  color: #494848;
+  align-self: center;
+}
+.work-counter .time-hour-wrap {
+  position: relative;
+  width: 100%;
+}
+.work-counter .time-hour-wrap .time-hour-bg {
+  width: 222rpx;
+  height: 83rpx;
+  background: #ffdb36;
+  border-radius: 36px;
+  position: absolute;
+  top: 190rpx;
+  left: 8%;
+  z-index: -1;
+}
+.work-counter .time-hour-wrap .time-hour-single {
+  font-size: 165rpx;
+  color: #000000;
+  font-weight: bold;
+  position: absolute;
+  top: 68rpx;
+  left: 16%;
+  z-index: 1;
+}
+.work-counter .time-hour-wrap .time-hour-double {
+  font-size: 165rpx;
+  color: #000000;
+  font-weight: bold;
+  position: absolute;
+  top: 68rpx;
+  left: 10%;
+  z-index: 1;
+}
+.work-counter .time-hour-wrap .hour-text {
+  font-size: 52rpx;
+  color: #E8BF05;
+  position: absolute;
+  left: 39%;
+  top: 195rpx;
+}
+.work-counter .time-hour-wrap .min-hour-bg {
+  width: 222rpx;
+  height: 83rpx;
+  background: #ffdb36;
+  border-radius: 36px;
+  position: absolute;
+  top: 190rpx;
+  left: 54%;
+  z-index: -1;
+}
+.work-counter .time-hour-wrap .min-hour {
+  font-size: 165rpx;
+  color: #000000;
+  font-weight: bold;
+  position: absolute;
+  top: 68rpx;
+  left: 56%;
+  z-index: 1;
+}
+.work-counter .time-hour-wrap .min-text {
+  font-size: 52rpx;
+  color: #E8BF05;
+  position: absolute;
+  left: 86%;
+  top: 195rpx;
+}
+.work-counter .modify-time {
+  position: fixed;
+  bottom: 109rpx;
+  align-self: center;
+  font-size: 32rpx;
+  color: #ECC306;
+  border-bottom: solid 1rpx #ECC306;
+}

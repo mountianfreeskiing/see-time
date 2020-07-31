@@ -1,6 +1,6 @@
 // pages/sleepCounter/sleepCounter.js
 
-import { getCurrentSleepHour, updateGetUpTime } from "../../../utils/api.js";
+import { getCurrentWorkHour, updateOffDuty } from "../../../utils/api.js";
 
 const app = getApp()
 Page({
@@ -18,24 +18,24 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * 生命周期函数--监听页面加载1
    */
   onLoad: function (options) {
-    this.data.endTime = options.endTime === undefined ? "" : parseInt(options.endTime);
+    this.data.endTime = typeof options.endTime === 'undefined' ? "" : parseInt(options.endTime);
 
-    this.getSleepHour(this.data.endTime)
+    this.getWorkHour(this.data.endTime)
   },
 
-  getSleepHour(endTime) {
+  getWorkHour(endTime) {
     let data = {
       openId: app.globalData.openid,
       endTime: endTime
     }
-    getCurrentSleepHour(data).then((result) => {
-      console.log("getCurrentSleepHour success:", result)
+    getCurrentWorkHour(data).then((result) => {
+      console.log("getCurrentWorkHour success:", result)
       if (result.result.code === 0 && result.result.data && result.result.data.length) {
-        let hour = result.result.data[0].sleepHour;
-        let minute = result.result.data[0].sleepMinute;
+        let hour = result.result.data[0].workHour;
+        let minute = result.result.data[0].workMinute;
         let minStr = '';
         if (minute < 10) {
           minStr = '0' + minute
@@ -53,7 +53,6 @@ Page({
     });
   },
 
-
   showDatePicker: function (e) {
     // this.data.datePicker.show(this);
     this.setData({
@@ -62,7 +61,7 @@ Page({
   },
 
   timePickerOnSureClick: function (e) {
-   
+
     this.setData({
       datePickerValue: e.detail.value,
       datePickerIsShow: false
@@ -82,32 +81,30 @@ Page({
 
     console.log(timeStr)
 
-    let getUpTime = new Date(timeStr)
+    let offDutyTime = new Date(timeStr)
 
     let data = {
       openId: app.globalData.openid,
-      endTime: getUpTime.getTime(),
+      endTime: offDutyTime.getTime(),
       originEndTime: this.data.endTime
     }
 
-    updateGetUpTime(data).then((result) => {
-      console.log("updateGetUpTime success:", result)
+    updateOffDuty(data).then((result) => {
+      console.log("updateOffDuty success:", result)
       if (result.result.code !== 0) {
         app.showToast('请求失败!')
       } else {
         //更新数据
-        this.getSleepHour(getUpTime.getTime())
+        this.getWorkHour(offDutyTime.getTime())
       }
       wx.hideLoading();
     }).catch((err) => {
       wx.hideLoading();
-      console.error('[云函数] [updateGetUpTime] 调用失败', err)
+      console.error('[云函数] [updateOffDuty] 调用失败', err)
     });
   },
 
   timePickerOnCancelClick: function (e) {
-    console.log('PickerOnCancelClick');
-    console.log(e);
     this.setData({
       datePickerIsShow: false,
     });

@@ -18,7 +18,6 @@ Page({
     btnBg: '../../images/icon_btn_bg.png',
     isSleeping: false,
     startTime: '',
-    id: '',
     statisticalData: [0, 0, 0, 0, 0, 0, 0],
     weekData: []
   },
@@ -53,8 +52,7 @@ Page({
           this.setData({
             rightText: '起床',
             isSleeping: sleepData.isSleeping,
-            startTime: sleepData.startTime,
-            id: sleepData._id
+            startTime: sleepData.startTime
           });
         }
       }
@@ -212,7 +210,7 @@ Page({
 
       //绘制睡眠的时长
       let hourStr, minStr;
-      if (h > 10) {
+      if (h >= 10) {
         hourStr = h//middleStr;
         ctx.fillText(hourStr, - width / 4 + 20, 7);
         ctx.save();
@@ -227,7 +225,7 @@ Page({
         ctx.fillText('h', - width / 4 + 70, 7);
         ctx.restore();
       }
-      if (m > 10) {
+      if (m >= 10) {
         minStr = m;
         ctx.fillText(minStr, width / 5 - 40, 7);
         ctx.save();
@@ -327,7 +325,6 @@ Page({
     let time = now.getTime();
 
     let data = {
-      _id: this.data.id,
       openId: app.globalData.openid,
       endTime: time
     }

@@ -8,7 +8,7 @@
               <image class='pressed' src="../../../images/icon_btn_bg_pressed.png" />
               <text>取消</text>
             </view>
-            <view class="btn-content-wrap" hover-class="button-hover" bindtap="startWorkOrFinish">
+            <view class="btn-content-wrap" hover-class="button-hover" bindtap="resumeWorkOrPause">
               <image src="../../../images/icon_btn_bg.png" />
               <image class='pressed' src="../../../images/icon_btn_bg_pressed.png" />
               <text>{{rightText}}</text>
@@ -16,4 +16,8 @@
         </view>
       </canvas>
   </view>
+
+    <view class="finish-wrap" bindtap="finishWork">
+      <view class="finish-inner">搞定</view>
+    </view>
 </view>

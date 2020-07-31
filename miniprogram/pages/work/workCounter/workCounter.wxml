@@ -1,0 +1,20 @@
+<!--pages/sleepCounter/sleepCounter.wxml-->
+<view class="work-counter">
+  <view class="work-title">本次工作时长</view>
+  <view class="time-hour-wrap">
+    <view class="time-hour-bg"></view>
+    <view class="{{isDoubleHour ? 'time-hour-double' : 'time-hour-single'}}">{{hour}}</view>
+    <view class="hour-text">小时</view>
+    <view class="min-hour-bg"></view>
+    <view class="min-hour">{{minute}}</view>
+    <view class="min-text">分</view>
+  </view>
+
+  <view class="modify-time" bindtap="showDatePicker">结束时间不对？</view>
+  <time-picker
+    id="date-picker"
+    value="{{datePickerValue}}" 
+    isShow="{{datePickerIsShow}}"
+    bindsureclick="timePickerOnSureClick"
+    bindcancelclick="timePickerOnCancelClick"></time-picker>
+</view>
